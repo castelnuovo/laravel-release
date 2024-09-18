@@ -11,7 +11,7 @@ use Throwable;
 
 class ReleaseService
 {
-    public function getVersion(): string
+    public static function getVersion(): string
     {
         $result = Process::run('git describe --tags');
 
@@ -31,7 +31,7 @@ class ReleaseService
         $version = self::getVersion();
 
         $release = self::getAll()
-            ->filter(fn (ReleaseData $release) => $release->version === $version)
+            ->filter(fn(ReleaseData $release) => $release->version === $version)
             ->first(default: false);
 
         if (! $release) {
