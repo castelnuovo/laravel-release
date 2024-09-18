@@ -1,0 +1,86 @@
+{
+    "name": "castelnuovo/laravel-release",
+    "description": "Parse data from my changelog api",
+    "keywords": [
+        "Castelnuovo Solutions",
+        "laravel",
+        "laravel-release"
+    ],
+    "homepage": "https://github.com/castelnuovo/laravel-release",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luca Castelnuovo",
+            "email": "luca@castelnuovo.dev",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^10.0||^11.0",
+        "livewire/livewire": "^3.5",
+        "spatie/laravel-data": "^4.9",
+        "spatie/laravel-package-tools": "^1.16"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^8.1.1||^7.10.0",
+        "larastan/larastan": "^2.9",
+        "orchestra/testbench": "^9.0.0||^8.22.0",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-arch": "^2.7",
+        "pestphp/pest-plugin-laravel": "^2.3",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "spatie/laravel-ray": "^1.35"
+    },
+    "autoload": {
+        "psr-4": {
+            "Castelnuovo\\LaravelRelease\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Castelnuovo\\LaravelRelease\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@composer run prepare",
+        "clear": "@php vendor/bin/testbench package:purge-laravel-release --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": [
+            "@composer run prepare",
+            "@php vendor/bin/testbench workbench:build --ansi"
+        ],
+        "start": [
+            "Composer\\Config::disableProcessTimeout",
+            "@composer run build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Castelnuovo\\LaravelRelease\\LaravelReleaseServiceProvider"
+            ],
+            "aliases": {
+                "LaravelRelease": "Castelnuovo\\LaravelRelease\\Facades\\LaravelRelease"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
